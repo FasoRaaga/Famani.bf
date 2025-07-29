@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Connexion</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.email.label }}
+            {{ form.email(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password.label }}
+            {{ form.password(class="form-control") }}
+        </div>
+
+        <!-- Section Code Admin (cachée par défaut) -->
+        <div id="admin-section" class="mb-3" style="display: none;">
+            {{ form.code_admin.label(class="form-label") }}
+            {{ form.code_admin(class="form-control", placeholder="Code réservé aux administrateurs") }}
+            <small class="form-text text-muted">Ce code est réservé au personnel autorisé</small>
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form.remember(class="form-check-input") }}
+            {{ form.remember.label(class="form-check-label") }}
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+
+        <div class="text-center">
+            <a href="#" id="toggle-admin" class="text-muted small">
+                <i class="bi bi-shield-lock"></i> Accès administrateur
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleLink = document.getElementById('toggle-admin');
+        const adminSection = document.getElementById('admin-section');
+
+        toggleLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            if (adminSection.style.display === 'none') {
+                adminSection.style.display = 'block';
+                toggleLink.innerHTML = '<i class="bi bi-eye-slash"></i> Masquer l\'accès administrateur';
+            } else {
+                adminSection.style.display = 'none';
+                toggleLink.innerHTML = '<i class="bi bi-shield-lock"></i> Accès administrateur';
+            }
+        });
+    });
+</script>
+{% endblock %}
+

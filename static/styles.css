@@ -1,0 +1,323 @@
+/* ========== VARIABLES CSS ========== */
+:root {
+  --primary-color: #2c3e50;/* Couleur principale (bleu-gris) */
+  --categorie-color: #FF8C00;
+  --secondary-color: #e67e22;  /* Couleur secondaire (orange) */
+  --background-color: #FFFFFF; /* Couleur de fond */
+  --text-dark: #2c3e50;        /* Texte foncé */
+  --text-light: #ffffff;/* Texte clair */
+  --footer-height: 80px;       /* Hauteur du footer */
+}
+
+/* ========== BASE ========== */
+body {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: var(--footer-height); /* Espace pour le footer */
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  background-color: var(--primary-color ) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-light) !important;
+}
+
+.nav-link {
+  transition: all 0.3s ease !important;
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Sidebar fixe */
+.fixed-sidebar {
+  position: fixed;
+  right: 0;
+  top: 60px; /* Hauteur de la navbar */
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  padding: 20px;
+}
+
+.bg-orange {
+  background-color: #ff8800 !important;
+}
+
+.color-text {
+  color: #111 !important;
+}
+
+
+/* Adaptation mobile */
+@media (max-width: 768px) {
+  .fixed-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    height: auto;
+  }
+}
+
+/* ========== CARTES PRODUITS ========== */
+.card {
+  border: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.description-produit {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card-img-top {
+  height: 120px !important;
+  object-fit: contain !important;
+}
+
+.card-img-top-acceuil {
+  height: 200px !important;
+  object-fit: contain !important;
+  transition: transform 0.3s ease;
+}
+
+.card-title {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.product-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.action-buttons {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* ========== BOUTONS ========== */
+.btn-success {
+  background-color: #28a745 !important;
+  border: none;
+  padding: 0.5rem 1.5rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border: none;
+}
+
+.btn-categorie {
+  background-color: var(--categorie-color) !important;
+  border: none;
+}
+
+.btn-warning {
+  background-color: var(--secondary-color) !important;
+  color: var(--text-light) !important;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  margin-top: auto; /* Footer collé en bas */
+  height: var(--footer-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(231, 126, 34, 0.05);
+}
+
+.btn-danger:hover .bi-trash {
+    transform: scale(1.2);
+}
+
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 180px;
+  }
+
+@media (max-width: 479px) {
+  .row-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .row {
+    row-gap: 1.5rem; /* Espacement vertical sur mobile */
+  }
+
+  footer {
+    height: auto;
+    padding: 1rem;
+    text-align: center;
+  }
+}
+
+/* Vente Flash */
+.flash-sale-container {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.flash-sale-scroll {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.flash-product-card {
+    flex: 0 0 280px;
+    transition: transform 0.3s;
+}
+
+.flash-product-card:hover {
+    transform: translateY(-5px);
+}
+
+.flash-sale-img {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.price-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.new-price {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.countdown {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: #dc3545;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.countdown span {
+    min-width: 2ch;
+    display: inline-block;
+    text-align: center;
+}
+
+.title-band {
+  background-color: #f8f8f8;  /* Couleur de fond */
+  padding:20px 0;            /* Espacement vertical */
+  text-align: center;         /* Centrage horizontal */
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 30px 0;             /* Espacement externe */
+}
+
+.title-band h1 {
+  margin: 0;                  /* Supprime les marges par défaut */
+  font-size: 1.8rem;          /* Taille du texte */
+  color: #333;                /* Couleur du texte */
+  font-weight: 600;           /* Épaisseur de la police */
+}
+
+/* Animation pour le bouton */
+.ajouter-panier.added {
+    background-color: #28a745 !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Icône de confirmation */
+.bi-check {
+    margin-right: 5px;
+}
+
+
+/* Permet le défilement horizontal sans barre de défilement visible */
+.d-flex.flex-nowrap.overflow-auto {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.d-flex.flex-nowrap.overflow-auto::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Style pour le défilement fluide */
+.d-flex.flex-nowrap.overflow-auto {
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+}
+
+/* Accueil - Ventes Flash */
+.overflow-auto {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.overflow-auto::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+.overflow-auto .card {
+    display: inline-block;
+    float: none;
+}
+
+/* Masquer la scrollbar sur Chrome, Safari et Opera */
+.events-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Masquer la scrollbar sur IE, Edge et Firefox */
+.events-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

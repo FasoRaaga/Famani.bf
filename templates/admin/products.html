@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Produits en attente ({{ products|length }})</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for product in products %}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <!-- Correction ici : utilisation du chemin complet -->
+                <img src="{{ product.image }}"
+                 class="card-img-top"
+                 style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.nom }}</h5>
+                <h5 class="card-title">{{ product.id }}</h5>
+                <p class="card-text">{{ product.description|truncate(100) }}</p>
+                <p class="text-muted">{{ product.prix }} FCFA</p>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('approve_product', product_id=product.id) }}"
+                       class="btn btn-success btn-sm">
+                        ✅ Approuver
+                    </a>
+                    <a href="{{ url_for('delete_product', product_id=product.id) }}"
+                       class="btn btn-danger btn-sm">
+                        🗑️ Supprimer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            Aucun produit en attente de modération
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

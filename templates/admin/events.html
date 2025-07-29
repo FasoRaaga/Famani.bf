@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Evenements ({{ ajouts|length }})</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFlashSaleModal">
+        ➕ Nouveau evenement
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>WhatsApp</th>
+                <th>Expire le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ajout in ajouts %}
+            <tr>
+                <td>{{ ajout.id }}</td>
+                <td><img src="{{ url_for('static', filename='images/' + ajout.image) }}" width="50"></td>
+                <td>{{ ajout.whatsapp }}</td>
+                <td>{{ ajout.date_expiration.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                    <a href="{{ url_for('delete_event', id=ajout.id) }}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun evenement</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Ajout Vente Flash -->
+<div class="modal fade" id="addFlashSaleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('manage_event') }}" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouveau evenement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Numéro WhatsApp</label>
+                        <input type="text" name="whatsapp" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Date et heure d'expiration</label>
+                        <input type="datetime-local" name="date_expiration" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Image</label>
+                        <input type="file" name="image" class="form-control" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

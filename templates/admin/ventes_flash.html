@@ -1,0 +1,85 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Ventes Flash ({{ ventes|length }})</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFlashSaleModal">
+        ➕ Nouvelle vente flash
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>WhatsApp</th>
+                <th>Expire le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vente in ventes %}
+            <tr>
+                <td>{{ vente.id }}</td>
+                <td><img src="{{ url_for('static', filename='images/' + vente.image) }}" width="50"></td>
+                <td>{{ vente.description }}</td>
+                <td>{{ vente.prix }} FCFA</td>
+                <td>{{ vente.whatsapp }}</td>
+                <td>{{ vente.date_expiration.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                    <a href="{{ url_for('delete_flash_sale', id=vente.id) }}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Aucune vente flash</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Ajout Vente Flash -->
+<div class="modal fade" id="addFlashSaleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('manage_flash_sales') }}" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle vente flash</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label>Prix (FCFA)</label>
+                        <input type="number" step="0.01" name="prix" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Numéro WhatsApp</label>
+                        <input type="text" name="whatsapp" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Date et heure d'expiration</label>
+                        <input type="datetime-local" name="date_expiration" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Image</label>
+                        <input type="file" name="image" class="form-control" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

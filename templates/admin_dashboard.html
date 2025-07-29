@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard Admin</h2>
+
+    <h4>Utilisateurs</h4>
+    <table class="table">
+        <thead><tr><th>ID</th><th>PRODUITS</th><th>Email</th><th>Telephone</th><th><th>Nom</th><th>Rôle</th><th>Action</th></tr></thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.produits }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telephone }}</td>
+                <td></td>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.role }}</td>
+                <td><a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-danger btn-sm">Supprimer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Produits</h4>
+    <table class="table">
+        <thead><tr><th>ID</th><th>Nom</th><th>Categorie</th><th>Whatsapp</th><th>Prix</th><th>Action</th></tr></thead>
+        <tbody>
+            {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.categorie }}</td>
+                <td>{{ produit.whatsapp }}</td>
+                <td>{{ produit.prix }} FCFA</td>
+                <td><a href="{{ url_for('delete_product', product_id=produit.id) }}" class="btn btn-danger btn-sm">Supprimer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

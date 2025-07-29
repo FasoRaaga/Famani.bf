@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="text-center py-1 mt-1 bg-dark text-light">
+    <h5 class="mb-0">Mon compte</h5>
+  </div>
+  <h5 class="mt-5"></h5>
+
+  {% if utilisateur.photo %}
+    <div class="text-center mb-3">
+      <img src="{{ url_for('static', filename='profils/' + utilisateur.photo) }}" alt="Photo de profil" class="rounded-circle" width="150">
+    </div>
+  {% endif %}
+
+  <div class="card p-4">
+    <p><strong>Email :</strong> {{ utilisateur.email }}</p>
+    <p><strong>Nom :</strong> {{ utilisateur.nom or "Non renseigné" }}</p>
+    <p><strong>WhatsApp :</strong> {{ utilisateur.telephone or "Non renseigné" }}</p>
+    <p><strong>Abonnement :</strong> {% if utilisateur.abonnement %}✅ Actif{% else %}❌ Non Abonné{% endif %}</p>
+  </div>
+
+  <div class="text-center mt-3">
+    <a href="{{ url_for('modifier_compte') }}" class="btn btn-primary">Configurer mon compte</a>
+  </div>
+
+  <div class="text-center mt-4">
+        <a href="{{ url_for('mes_produits') }}" class="btn btn-info">
+            <i class="bi bi-box-seam"></i> Gérer mes produits
+        </a>
+    </div>
+
+
+  <div class="text-center mt-4">
+  <a href="{{ url_for('logout') }}" class="btn btn-danger">Déconnexion</a>
+  </div>
+
+</div>
+{% endblock %}

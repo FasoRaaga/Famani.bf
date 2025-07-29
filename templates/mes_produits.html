@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h5 class="text-center">Mes Produits</h5>
+    <div class="alert alert-info">
+        Vous avez {{ nombre_produits }}/{% if current_user.role == 'admin' %}infini{% else %}15{% endif%} produits
+        {% if nombre_produits >= 15 and curren_user.role != 'admin' %}
+            <span class="badge bg-danger ms-2">Limite atteinte</span>
+        {% endif %}
+    </div>
+
+    {% if produits %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for produit in produits %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ produit.image }}"
+                     class="card-img-top"
+                     alt="{{ produit.nom }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <p class="card-text">{{ produit.description|truncate(100) }}</p>
+                    <p class="fw-bold">{{ produit.prix }} FCFA</p>
+                </div>
+                <div class="card-footer">
+                    <form method="POST" action="{{ url_for('supprimer_produit', id=produit.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        Vous n'avez aucun produit enregistré.
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('ajouter_produit') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Ajouter un produit
+        </a>
+    </div>
+</div>
+{% endblock %}

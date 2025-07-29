@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="text-center">Créer un compte</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.email.label }}
+      {{ form.email(class="form-control") }}
+    </div>
+
+    <div class="mb-3 position-relative">
+      {{ form.password.label }}
+      {{ form.password(class="form-control", id="password") }}
+      <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePassword('password', this)" style="cursor: pointer;">
+        <i class="fas fa-eye" id="icon-password"></i>
+      </span>
+    </div>
+
+    <div class="mb-3 position-relative">
+      {{ form.confirm_password.label }}
+      {{ form.confirm_password(class="form-control", id="confirm_password") }}
+      <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePassword('confirm_password', this)" style="cursor: pointer;">
+        <i class="fas fa-eye" id="icon-confirm-password"></i>
+      </span>
+    </div>
+
+    {{ form.submit(class="btn btn-primary mt-3") }}
+  </form>
+</div>
+
+<script>
+  function togglePassword(fieldId, iconSpan) {
+    const field = document.getElementById(fieldId);
+    const icon = iconSpan.querySelector("i");
+
+    if (field.type === "password") {
+      field.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      field.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const inputs = document.querySelectorAll('[name="moyen_paiement"]');
+    const whatsappBox = document.getElementById("whatsappMessage");
+
+    inputs.forEach(input => {
+      input.addEventListener("change", function() {
+        whatsappBox.classList.remove("d-none");
+      });
+    });
+  });
+</script>
+
+{% endblock %}
