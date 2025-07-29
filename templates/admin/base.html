@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Famani</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/flash-sale.js') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .admin-sidebar {
+            background: #2c3e50;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .admin-nav-link {
+            color: #ecf0f1 !important;
+            padding: 10px 15px;
+            margin: 5px 0;
+        }
+        .admin-nav-link:hover {
+            background: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 admin-sidebar">
+                <h4 class="text-white mb-4">Administration</h4>
+                <nav class="nav flex-column">
+                    {% if vente_flash and vente_flash.active %}
+                    <div class="alert alert-danger text-center mb-0">
+                        <div class="container">
+                            <strong>⚡ {{ vente_flash.titre }}</strong>
+                            <span class="mx-3">| Fin: {{ vente_flash.date_fin.strftime('%d/%m/%Y à %H:%M') }}</span>
+                            <span class="mx-3">| Réduction: {{ vente_flash.reduction }}%</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <a class="nav-link admin-nav-link" href="{{ url_for('manage_products') }}">📦 Produits</a>
+                    <a class="nav-link admin-nav-link" href="{{ url_for('manage_flash_sales') }}">⚡ Ventes Flash</a>
+                    <a class="nav-link admin-nav-link" href="{{ url_for('manage_event') }}">Evenement</a>
+                    <a class="nav-link admin-nav-link" href="{{ url_for('admin_stats') }}">📊 Statistiques</a>
+                    <a class="nav-link admin-nav-link" href="{{ url_for('admin_utilisateurs_produits') }}">
+                        👥 Utilisateurs & Produits
+                    </a>
+                    <!-- Ajouter ce lien dans la navigation -->
+                    <hr class="text-white">
+                    <a class="nav-link admin-nav-link text-danger" href="{{ url_for('logout') }}">🚪 Déconnexion</a>
+
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 mt-5 bg-dark text-light">
+        © 2025 Famani - Tous droits réservés
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/flash-sale.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

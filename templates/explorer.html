@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <form method="get" action="{{url_for('explorer') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="from-control" name="q" placeholder="Rechercher par nom,  description..." value="{{ request.args.get('q','') }}">
+            <button class="btn btn-primary" type="submit">Rechercher</button>
+        </div>
+    </form>
+    <form method="get" action="{{url_for('explorer') }}" class="mb-4">
+        <div class="input-group">
+            <select name="sort_by" class="form-select" onchange="this.form.submit()">
+                <option value="">Trier les prix du...</option>
+                <option value="prix_asc" {% if sort_by =='prix_asc' %}selected{% endif %}>plus petit -- au plus grand</option>
+                <option value="prix_desc" {% if sort_by =='prix_desc' %}selected{% endif %}>plus grand -- au plus petit</option>
+            </select>
+            <input type="hidden" name="search" value="{{ search }}">
+        </div>
+    </form>
+
+
+    {% if produits_categorie %}
+    <div class="text-center py-1 mt-1 bg-orange color-text">
+        <h5 class="mb-0">Produits dans "{{ nom_categorie }}"</h5>
+    </div>
+    <h5 class="mt-5"></h5>
+    <div class="row row-cols-2 row-cols-md-3 g-3">
+        {% for produit in produits_categorie %}
+        <div class="col-md-4 mb-4 product-card" onclick="toggleButtons(this)">
+
+            <div class="card h-100 border-light shadow-sm">
+                <img src="{{ produit.image }}" class="card-img-top" style="height: 20px; object-fit: cover;">
+                <div class="card-body p-2 text-center">
+                    <p class="description-produit">{{ produit.description|truncate(100) }}</p>
+                    <p class="fw-bold text-center">{{ produit.prix }} FCFA</p>
+                 <div class="action-buttons d-none">
+                    <a
+                        href="https://wa.me/{{ produit.whatsapp }}?text=Je%20suis%20intéressé%20par%20votre%20produit%20:%0A*Nom*%20:%20{{ produit.nom|urlencode }}%0A*Prix*%20:%20{{ produit.prix|urlencode }}%20FCFA%0A*Description*%20:%20{{ produit.description|urlencode }}%0A*Image*%20:%20{{ produit.image }}"
+                        class="btn btn-success"
+                        target="_blank">
+                        <i class="bi bi-whatsapp"></i> Commander
+                    </a>
+                 </div>
+                </div>
+            </div>
+      </div>
+      {% endfor %}
+
+      <script>
+    let activeCard = null;
+
+    function toggleButtons(card) {
+        const buttons = card.querySelector('.action-buttons');
+
+        if (activeCard && activeCard !== card) {
+            activeCard.querySelector('.action-buttons').classList.add('d-none');
+        }
+
+        buttons.classList.toggle('d-none');
+        activeCard = buttons.classList.contains('d-none') ? null : card;
+    }
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.product-card') && window.innerWidth <= 768) {
+            document.querySelectorAll('.action-buttons').forEach(btn => {
+                btn.classList.add('d-none');
+            });
+            activeCard = null;
+        }
+     });
+
+
+
+    let activeCard = null;
+
+    function toggleButtons(card) {
+        const buttons = card.querySelector('.action-buttons');
+
+        if (activeCard && activeCard !== card) {
+        activeCard.querySelector('.action-buttons').classList.add('d-none');
+        }
+
+        buttons.classList.toggle('d-none');
+        activeCard = buttons.classList.contains('d-none') ? null : card;
+        }
+
+        // Gestion du clic en dehors des cartes (mobile)
+        document.addEventListener('click', (e) => {
+        if (!e.target.closest('.product-card') && window.innerWidth <= 768) {
+            document.querySelectorAll('.action-buttons').forEach(btn => {
+            btn.classList.add('d-none');
+            });
+            activeCard = null;
+        }
+    });
+
+
+    </script>
+    </div>
+    <hr>
+    {% endif %}
+  <div class="text-center py-1 mt-1 bg-orange color-text">
+        <h5 class="mb-0">Tous les produits</h5>
+  </div>
+  <h5 class="mt-5"></h5>
+  <div class="row row-cols-2 row-cols-md-3 g-3">
+    {% for produit in produits %}
+    <div class="col-md-4 mb-4 product-card" onclick="toggleButtons(this)">
+      <div class="card h-100 ">
+        <img src="{{ produit.image }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+        <div class="card-body p-2 text-center">
+          <p class="description-produit">{{ produit.description|truncate(100) }}</p>
+          <p class="fw-bold text-center">{{ produit.prix }} FCFA</p>
+            <div class="action-buttons d-none">
+             <a
+                href="https://wa.me/{{ produit.whatsapp }}?text=Je%20suis%20intéressé%20par%20votre%20produit%20:%0A*ID*%20:%20{{ produit.id|urlencode }}%0A*Nom*%20:%20{{ produit.nom|urlencode }}%0A*Prix*%20:%20{{ produit.prix|urlencode }}%20FCFA%0A*Description*%20:%20{{ produit.description|urlencode }}%0A*Image*%20:%20{{ produit.image }}"
+                class="btn btn-success"
+                target="_blank">
+                <i class="bi bi-whatsapp"></i> Commander
+             </a>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <script>
+    let activeCard = null;
+
+    function toggleButtons(card) {
+        const buttons = card.querySelector('.action-buttons');
+
+        if (activeCard && activeCard !== card) {
+            activeCard.querySelector('.action-buttons').classList.add('d-none');
+        }
+
+        buttons.classList.toggle('d-none');
+        activeCard = buttons.classList.contains('d-none') ? null : card;
+    }
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.product-card') && window.innerWidth <= 768) {
+            document.querySelectorAll('.action-buttons').forEach(btn => {
+                btn.classList.add('d-none');
+            });
+            activeCard = null;
+        }
+     });
+    </script>
+  </div>
+</div>
+
+<!-- Menu des catégories en bas -->
+<hr class="my-4">
+<div class="container mb-4">
+  <h5 class="text-center mt-5">Catégories</h5>
+  <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+    {% for categorie in categories %}
+    <div class="col">
+      <a href="{{ url_for('explorer', categorie=categorie) }}" class="btn btn-categorie">
+        {{ categorie }}
+      </a>
+    </div>
+    {% endfor %}
+
+
+  </div>
+</div>
+
+{% endblock %}

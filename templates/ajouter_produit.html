@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center">Ajouter un produit</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label>Nom du produit</label>
+      <input type="text" name="nom" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Description (Integrer le nom du produit)</label>
+      <textarea name="description" class="form-control" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label>Prix (FCFA)</label>
+      <input type="number" name="prix" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Catégorie</label>
+      <select name="categorie" class="form-control" required>
+        <option value="Autre">Autre</option>
+        <option value="Électronique">Électronique</option>
+        <option value="Mode">Mode</option>
+        <option value="Maison">Maison</option>
+        <option value="Art">Art</option>
+        <option value="Services">Services</option>
+        <option value="Technologie">Technologie</option>
+        <option value="Beauté">Beauté</option>
+        <option value="Santé">Santé</option>
+        <option value="Sport">Sport</option>
+        <option value="Évènement">Évènement</option>
+        <option value="Énergie renouvelable">Énergie renouvelable</option>
+        <option value="Alimentation">Alimentation</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>WhatsApp du produit (Ex: 62020202)</label>
+      <input type="text" name="whatsapp" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Image du produit</label>
+      <input type="file" name="image" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+  </form>
+</div>
+{% endblock %}

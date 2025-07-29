@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<!-- Section Ventes Flash -->
+    <div class="container mt-0">
+        <div class="text-center py-1 mt-1 bg-orange color-text">
+            <h5 class="mb-0">Ventes Flash ⚡</h5>
+        </div>
+        <h5 class="mt-5"></h5>
+        <div class="d-flex overflow-auto pb-3">
+            {% for vf in ventes_flash %}
+            <div class="card me-3" style="min-width: 250px;">
+                <img src="{{ url_for('static', filename='images/' + vf.image) }}" class="card-img-top" style="height: 150px; object-fit: cover;">
+                <div class="card-body">
+                    <h6 class="card-title">{{ vf.description|truncate(50) }}</h6>
+                    <p class="fw-bold">{{ vf.prix }} FCFA</p>
+                    <p class="small text-danger">Expire le {{ vf.date_expiration.strftime('%d/%m/%Y à %H:%M') }}</p>
+                    <a href="https://wa.me/{{ vf.whatsapp }}?text=Je%20suis%20intéressé%20par%20votre%20produit_Flash%20:%0A*Prix*%20:%20{{ vf.prix|urlencode }}%20FCFA%0A*Description*%20:%20{{ vf.description|urlencode }}" class="btn btn-success w-100">
+                        <i class="bi bi-whatsapp"></i> Commander
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-muted">Aucune vente flash en ce moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+<div class="text-center py-1 mt-1 bg-orange color-text">
+    <h5 class="mb-0">Nos catégories phares</h5>
+</div>
+<h5 class="mt-5"></h5>
+<div class="container">
+  <div class="row">
+    {% for cat, produit in produits_par_categorie.items() %}
+    <div class="col-md-4 mb-4 product-card" onclick="toggleButtons(this)">
+      <div class="card h-100">
+        <img src="{{ produit.image }}" class="card-img-top-acceuil" alt="{{ produit.description }}">
+        <div class="description-produit text-center">
+          <p>{{ produit.description|truncate(100) }}</p>
+          <p class="fw-bold text-center">{{ produit.prix }} FCFA</p>
+          <div class="action-buttons d-none">
+              <a
+                href="https://wa.me/{{ produit.whatsapp }}?text=Je%20suis%20intéressé%20par%20votre%20produit%20:%0A*Nom*%20:%20{{ produit.nom|urlencode }}%0A*Prix*%20:%20{{ produit.prix|urlencode }}%20FCFA%0A*Description*%20:%20{{ produit.description|urlencode }}%0A*Image*%20:%20{{ produit.image }}"
+                class="btn btn-success"
+                target="_blank">
+                <i class="bi bi-whatsapp"></i> Commander
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <script>
+    let activeCard = null;
+
+    function toggleButtons(card) {
+        const buttons = card.querySelector('.action-buttons');
+
+        if (activeCard && activeCard !== card) {
+            activeCard.querySelector('.action-buttons').classList.add('d-none');
+        }
+
+        buttons.classList.toggle('d-none');
+        activeCard = buttons.classList.contains('d-none') ? null : card;
+    }
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.product-card') && window.innerWidth <= 768) {
+            document.querySelectorAll('.action-buttons').forEach(btn => {
+                btn.classList.add('d-none');
+            });
+            activeCard = null;
+        }
+     });
+    </script>
+  </div>
+
+    <!-- Section Ventes Flash -->
+    <div class="container mt-5">
+        <div class="text-center py-1 mt-1 bg-orange color-text">
+            <h5 class="mb-0">Événements à venir 📅</h5>
+        </div>
+        <h5 class="mt-5"></h5>
+        <div class="d-flex overflow-auto pb-3">
+            {% for ev in events %}
+            <div class="card me-3" style="min-width: 250px;">
+                    <img src="{{ url_for('static', filename='images/' + ev.image) }}" class="card-img-top-acceuil" style="height: 150px; object-fit: cover;">
+                    <div class="card-body">
+                        <p class="small text-danger">Expire le {{ ev.date_expiration.strftime('%d/%m/%Y à %H:%M') }}</p>
+                        <a href="https://wa.me/{{ ev.whatsapp }}?text=Je%20souhaite%20participer%20à%20l'evenement :%0A*ID*%20:%20{{ ev.id|urlencode }}%0A*Image*%20:%20{{ ev.image }}" class="btn btn-success w-100">
+                            <i class="bi bi-whatsapp"></i> Participer
+                        </a>
+                    </div>
+            </div>
+            {% else %}
+            <p class="text-muted">Aucun évènement en ce moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <hr class="my-5">
+
+  <h5 class="text-center">Explorer toutes les catégories</h5>
+  <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+    {% for cat in categories %}
+    <a href="{{ url_for('explorer', categorie=cat) }}" class="btn btn-categorie">{{ cat }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
