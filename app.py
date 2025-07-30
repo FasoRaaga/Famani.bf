@@ -16,8 +16,10 @@ app.config.from_object('config.Config')
 db.init_app(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-
 app.secret_key = 'ton_secret_key_ici'
+
+with app.app_context():
+    db.create_all()
 
 
 
